@@ -13,10 +13,11 @@ function* handleLogin(action) {
   try {
     const response = yield call(
       axios.post,
-      "http://localhost:8000/api/auth/login", // Correct the endpoint for login
+      "http://localhost:8000/api/auth/login",
       action.payload
     );
-    yield put(loginSuccess(response.data));
+    console.log("Logged in user:", response.data); // Log the user object
+    yield put(loginSuccess(response.data)); // This should dispatch the correct user object
   } catch (error) {
     const errorMsg = error.response?.data?.message || error.message;
     yield put(loginFailure(errorMsg));

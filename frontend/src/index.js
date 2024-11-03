@@ -24,13 +24,13 @@ root.render(
         <Route path="/" element={<Navigate to="/login" />} />
 
         {/* Define routes with layouts */}
-        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/admin/:userId/*" element={<Admin />} />
         <Route path="/auth/*" element={<Auth />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         {/* Redirect any unknown paths to login */}
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/register" />} />
       </Routes>
     </BrowserRouter>
   </Provider>
