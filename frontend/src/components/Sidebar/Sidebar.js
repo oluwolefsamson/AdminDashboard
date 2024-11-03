@@ -150,7 +150,7 @@ export default function Sidebar() {
                 </Link>
               </li>
 
-              <li className="items-center">
+              {/* <li className="items-center">
                 <Link
                   className={
                     "text-xs uppercase py-3 font-bold block " +
@@ -170,7 +170,7 @@ export default function Sidebar() {
                   ></i>{" "}
                   Maps
                 </Link>
-              </li>
+              </li> */}
             </ul>
 
             {/* Divider */}
@@ -185,7 +185,7 @@ export default function Sidebar() {
               <li className="items-center">
                 <Link
                   className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  to="/auth/login"
+                  to="/login"
                 >
                   <i className="fas fa-fingerprint text-blueGray-400 mr-2 text-sm"></i>{" "}
                   Login
@@ -195,7 +195,7 @@ export default function Sidebar() {
               <li className="items-center">
                 <Link
                   className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-                  to="/auth/register"
+                  to="/register"
                 >
                   <i className="fas fa-clipboard-list text-blueGray-300 mr-2 text-sm"></i>{" "}
                   Register

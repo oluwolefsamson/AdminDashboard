@@ -1,34 +1,37 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import ReactDOM from "react-dom/client"; // updated for React 18
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // updated imports for v6
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/styles/tailwind.css";
+import { Provider } from "react-redux";
+import store from "./store/index.js"; // Adjust this path if needed
 
-// layouts
-
+// layouts and components
 import Admin from "layouts/Admin.js";
 import Auth from "layouts/Auth.js";
+import Login from "./views/Login.js";
+import Register from "views/Register.js";
 
-// views without layouts
+// Initialize React 18 root
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
-// import Landing from "views/Landing.js";
-// import Profile from "views/Profile.js";
-// import Index from "views/Index.js";
+root.render(
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        {/* Redirect the root route to the Login page */}
+        <Route path="/" element={<Navigate to="/login" />} />
 
-ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      {/* add routes with layouts */}
-      <Route path="/" component={Admin} />
-      <Route path="/auth" component={Auth} />
-      {/* add routes without layouts */}
-      {/* <Route path="/landing" exact component={Landing} /> */}
-      {/* <Route path="/profile" exact component={Profile} />
-      <Route path="/" exact component={Index} /> */}
-      {/* add redirect for first page */}
-      <Redirect from="*" to="/" />
-    </Switch>
-  </BrowserRouter>,
-  document.getElementById("root")
+        {/* Define routes with layouts */}
+        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/auth/*" element={<Auth />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Redirect any unknown paths to login */}
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </BrowserRouter>
+  </Provider>
 );
