@@ -24,7 +24,7 @@ root.render(
         <Route path="/" element={<Navigate to="/login" />} />
 
         {/* Define routes with layouts */}
-        <Route path="/admin/:userId/*" element={<Admin />} />
+        <Route path="/user/:userId/*" element={<Admin />} />
         <Route path="/auth/*" element={<Auth />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

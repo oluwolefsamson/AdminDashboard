@@ -15,8 +15,7 @@ const authSlice = createSlice({
       state.loading = true;
     },
     loginSuccess: (state, action) => {
-      state.user = action.payload.user; // Ensure this assigns the user object directly
-
+      state.user = action.payload.user; // Assign user object directly
       state.loading = false;
       state.error = null;
     },
@@ -39,6 +38,16 @@ const authSlice = createSlice({
       state.error = action.payload;
     },
 
+    // Logout actions
+    logoutRequest: (state) => {
+      state.loading = true;
+    },
+    logoutSuccess: (state) => {
+      state.user = null;
+      state.loading = false;
+      state.error = null;
+    },
+
     // Reset error action
     resetError: (state) => {
       state.error = null;
@@ -53,6 +62,8 @@ export const {
   registerRequest,
   registerSuccess,
   registerFailure,
+  logoutRequest,
+  logoutSuccess,
   resetError,
 } = authSlice.actions;
 

@@ -7,6 +7,8 @@ import {
   registerRequest,
   registerSuccess,
   registerFailure,
+  logoutRequest,
+  logoutSuccess,
 } from "./authSlice";
 
 function* handleLogin(action) {
@@ -16,8 +18,8 @@ function* handleLogin(action) {
       "http://localhost:8000/api/auth/login",
       action.payload
     );
-    console.log("Logged in user:", response.data); // Log the user object
-    yield put(loginSuccess(response.data)); // This should dispatch the correct user object
+    console.log("Logged in user:", response.data);
+    yield put(loginSuccess(response.data));
   } catch (error) {
     const errorMsg = error.response?.data?.message || error.message;
     yield put(loginFailure(errorMsg));
@@ -38,7 +40,19 @@ function* handleRegister(action) {
   }
 }
 
+function* handleLogout() {
+  try {
+    // Clear the authentication token from local storage
+    localStorage.removeItem("token");
+
+    yield put(logoutSuccess());
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
+}
+
 export default function* authSaga() {
   yield takeLatest(loginRequest.type, handleLogin);
   yield takeLatest(registerRequest.type, handleRegister);
+  yield takeLatest(logoutRequest.type, handleLogout);
 }

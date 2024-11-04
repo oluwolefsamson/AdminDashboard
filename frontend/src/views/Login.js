@@ -24,7 +24,7 @@ export default function Login() {
       alert("Login Successful");
 
       // Redirect to dashboard page if user is logged in
-      navigate(`/admin/${user._id}`); // Navigate using the correct ID
+      navigate(`/user/${user._id}`); // Navigate using the correct ID
     }
 
     // Show alert for error message
