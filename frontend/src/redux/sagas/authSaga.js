@@ -15,7 +15,7 @@ function* registerSaga(action) {
   try {
     const response = yield call(
       axios.post,
-      "http://localhost:8000/api/auth/register",
+      `https://admindashboard-xtoc.onrender.com/api/auth/register`,
       action.payload
     );
 
@@ -42,7 +42,7 @@ function* loginSaga(action) {
   try {
     const response = yield call(
       axios.post,
-      "http://localhost:8000/api/auth/login",
+      `https://admindashboard-xtoc.onrender.com/api/auth/login`,
       action.payload
     );
 
