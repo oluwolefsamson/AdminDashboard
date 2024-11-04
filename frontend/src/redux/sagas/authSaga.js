@@ -19,7 +19,7 @@ function* registerSaga(action) {
   try {
     const response = yield call(
       axios.post,
-      `https://admindashboard-xtoc.onrender.com/api/auth/register`,
+      `https://admindashboard-rbch.onrender.com/api/auth/register`,
       action.payload
     );
 
@@ -46,7 +46,7 @@ function* loginSaga(action) {
   try {
     const response = yield call(
       axios.post,
-      `https://admindashboard-xtoc.onrender.com/api/auth/login`,
+      `https://admindashboard-rbch.onrender.com/api/auth/login`,
       action.payload
     );
 
@@ -101,7 +101,7 @@ function* getAllUsersSaga() {
   try {
     const response = yield call(
       axios.get,
-      `https://admindashboard-xtoc.onrender.com/api/users`
+      `https://admindashboard-rbch.onrender.com/api/users`
     );
 
     // Dispatch success action with users data
