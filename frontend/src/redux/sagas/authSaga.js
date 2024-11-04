@@ -99,7 +99,10 @@ function* loginSaga(action) {
 
 function* getAllUsersSaga() {
   try {
-    const response = yield call(axios.get, `http://localhost:8000/api/users`);
+    const response = yield call(
+      axios.get,
+      `https://admindashboard-xtoc.onrender.com/api/users`
+    );
 
     // Dispatch success action with users data
     yield put(getAllUsersSuccess(response.data));
