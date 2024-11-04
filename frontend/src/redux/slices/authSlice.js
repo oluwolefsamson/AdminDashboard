@@ -8,6 +8,7 @@ const authSlice = createSlice({
     loading: false,
     error: null,
     user: null,
+    users: [], // Add users array to store all users
   },
   reducers: {
     registerRequest: (state) => {
@@ -15,7 +16,6 @@ const authSlice = createSlice({
       state.error = null;
     },
     registerSuccess: (state) => {
-      // Do not set user on successful registration
       state.loading = false;
     },
     registerFailure: (state, action) => {
@@ -28,18 +28,36 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.loading = false;
-      state.user = action.payload; // Set user only on login
+      state.user = action.payload;
     },
     loginFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
-    // Add a logout action to reset user state
     logout: (state) => {
       state.user = null;
+      state.loading = false;
+      state.error = null;
+      // Optionally, clear users or other state
+      state.users = [];
+    },
+    getAllUsersRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    getAllUsersSuccess: (state, action) => {
+      state.loading = false;
+      state.users = action.payload;
+    },
+    getAllUsersFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });
+
+// Selector to get the total number of users
+export const selectTotalUsers = (state) => state.auth.users.length;
 
 // Export the action creators
 export const {
@@ -50,6 +68,9 @@ export const {
   loginSuccess,
   loginFailure,
   logout,
+  getAllUsersRequest,
+  getAllUsersSuccess,
+  getAllUsersFailure,
 } = authSlice.actions;
 
 // Export the reducer

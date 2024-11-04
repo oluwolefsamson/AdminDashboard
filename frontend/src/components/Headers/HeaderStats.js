@@ -1,10 +1,20 @@
-import React from "react";
-
-// components
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CardStats from "components/Cards/CardStats.js";
+import {
+  getAllUsersRequest,
+  selectTotalUsers,
+} from "../../redux/slices/authSlice";
 
 export default function HeaderStats() {
+  const dispatch = useDispatch();
+  const totalUsers = useSelector(selectTotalUsers);
+
+  // Fetch users when the component mounts
+  useEffect(() => {
+    dispatch(getAllUsersRequest());
+  }, [dispatch]);
+
   return (
     <>
       {/* Header */}
@@ -15,8 +25,8 @@ export default function HeaderStats() {
             <div className="flex flex-wrap">
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="TRAFFIC"
-                  statTitle="350,897"
+                  statSubtitle="TOTAL USERS"
+                  statTitle={totalUsers.toLocaleString()} // Display total users count here
                   statArrow="up"
                   statPercent="3.48"
                   statPercentColor="text-emerald-500"

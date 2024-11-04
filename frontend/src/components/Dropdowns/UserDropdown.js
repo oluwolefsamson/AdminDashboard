@@ -1,5 +1,6 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
+import Profile from "../../assets/img/profile.png";
 
 const UserDropdown = () => {
   // dropdown props
@@ -31,7 +32,7 @@ const UserDropdown = () => {
             <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
-              src={require("assets/img/team-1-800x800.jpg").default}
+              src={Profile}
             />
           </span>
         </div>

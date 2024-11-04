@@ -1,14 +1,21 @@
 /*eslint-disable*/
 import React from "react";
 import { Link } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { logout } from "../../redux/slices/authSlice";
 
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <>
@@ -216,7 +223,7 @@ export default function Sidebar() {
               <li className="items-center">
                 <span
                   className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block cursor-pointer"
-                  onClick={""} // Use onClick to handle logout
+                  onClick={handleLogout} // Use onClick to handle logout
                 >
                   <i className="fas fa-newspaper text-blueGray-400 mr-2 text-sm"></i>{" "}
                   Logout

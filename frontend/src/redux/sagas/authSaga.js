@@ -9,6 +9,10 @@ import {
   loginRequest,
   loginSuccess,
   loginFailure,
+  getAllUsersRequest,
+  getAllUsersSuccess,
+  getAllUsersFailure,
+  logout,
 } from "../slices/authSlice";
 
 function* registerSaga(action) {
@@ -93,7 +97,52 @@ function* loginSaga(action) {
   }
 }
 
+function* getAllUsersSaga() {
+  try {
+    const response = yield call(axios.get, `http://localhost:8000/api/users`);
+
+    // Dispatch success action with users data
+    yield put(getAllUsersSuccess(response.data));
+  } catch (error) {
+    let errorMessage;
+    if (error.response) {
+      errorMessage = error.response.data.error || "Failed to fetch users";
+    } else if (error.request) {
+      errorMessage = "No response from server. Please check your connection.";
+    } else {
+      errorMessage = error.message || "An unknown error occurred.";
+    }
+
+    // Dispatch failure action with error message
+    yield put(getAllUsersFailure(errorMessage));
+  }
+}
+
+// Logout saga to handle any side effects
+function* logoutSaga() {
+  try {
+    // Show a confirmation alert before logging out
+    const confirmed = window.confirm("Are you sure you want to log out?");
+
+    if (!confirmed) {
+      // If user selects "Cancel", exit the saga without logging out
+      return;
+    }
+
+    // Clear any stored tokens or data from localStorage
+    yield call([localStorage, "removeItem"], "authToken");
+
+    // Optionally redirect or perform other cleanup
+    // For example, redirect the user to the login page
+    window.location.href = "/login"; // Optional
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+}
+
 export default function* authSaga() {
   yield takeLatest(registerRequest.type, registerSaga);
   yield takeLatest(loginRequest.type, loginSaga);
+  yield takeLatest(getAllUsersRequest.type, getAllUsersSaga); // Add this line
+  yield takeLatest(logout.type, logoutSaga); // Watch for logout action
 }

@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const userRoutes = require("./routes/userRoutes");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
@@ -35,6 +36,7 @@ app.get("/", (req, res) => {
 // Define your routes
 app.use("/api/auth", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api", userRoutes);
 
 // Error handling middleware (optional, but recommended)
 app.use((err, req, res, next) => {

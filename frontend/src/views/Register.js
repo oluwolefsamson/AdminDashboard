@@ -1,5 +1,3 @@
-// src/components/Register.js
-
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerRequest } from "../redux/slices/authSlice";
@@ -14,6 +12,7 @@ export default function Register() {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false); // New state for password visibility
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,6 +38,7 @@ export default function Register() {
                   Sign up with
                 </h6>
               </div>
+              {/* Social Sign-Up Buttons */}
               <div className="btn-wrapper text-center">
                 <button
                   className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
@@ -114,15 +114,24 @@ export default function Register() {
                   >
                     Password
                   </label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    placeholder="Password"
-                    required
-                  />
+                  <div className="flex items-center">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="Password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="ml-2 text-blueGray-600"
+                    >
+                      {showPassword ? "Hide" : "Show"}
+                    </button>
+                  </div>
                 </div>
                 {/* Submit Button */}
                 <div className="text-center mt-6">
