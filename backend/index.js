@@ -13,7 +13,7 @@ const app = express();
 
 const allowedOrigins = [
   "https://admin-dashboard-mu-beryl.vercel.app",
-  ["http://localhost:3000"],
+  "http://localhost:3000", // Removed extra brackets here
 ];
 
 // Configure CORS options
