@@ -3,22 +3,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutRequest } from "../../redux/auth/authSlice";
 
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    console.log("Dispatching logout request...");
-    dispatch(logoutRequest()); // Dispatch the logout action
-    navigate("/login"); // Redirect to the login page
-    console.log("Navigating to login page...");
-  };
 
   return (
     <>
@@ -226,7 +216,7 @@ export default function Sidebar() {
               <li className="items-center">
                 <span
                   className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block cursor-pointer"
-                  onClick={handleLogout} // Use onClick to handle logout
+                  onClick={""} // Use onClick to handle logout
                 >
                   <i className="fas fa-newspaper text-blueGray-400 mr-2 text-sm"></i>{" "}
                   Logout

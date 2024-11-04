@@ -1,38 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRequest, resetError } from "../redux/auth/authSlice"; // Action to request login
+import { loginRequest } from "../redux/slices/authSlice"; // Adjust the path as necessary
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
+  const errorMessage = useSelector((state) => state.auth.error); // Access the error state
+  const loading = useSelector((state) => state.auth.loading); // Access the loading state
 
-  // Access loading and error state from Redux
-  const { loading, error, user } = useSelector((state) => state.auth);
-
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-
-    // Dispatch the login request action with email and password
     dispatch(loginRequest({ email, password }));
   };
 
   useEffect(() => {
     if (user) {
-      alert("Login Successful");
-
-      // Redirect to dashboard page if user is logged in
-      navigate(`/user/${user._id}`); // Navigate using the correct ID
+      navigate(`/user/${user.user._id}`);
     }
-
-    // Show alert for error message
-    if (error) {
-      alert("Invalid Credentials");
-      dispatch(resetError());
-    }
-  }, [user, error, navigate, dispatch]);
+  }, [user, navigate]);
 
   return (
     <div className="container mx-auto px-4 mt-4 h-full">
@@ -45,31 +34,23 @@ export default function Login() {
                   Sign in with
                 </h6>
               </div>
-              <div className="btn-wrapper text-center">
-                <button className="bg-white text-blueGray-700 font-bold px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center text-xs">
-                  <img
-                    alt="..."
-                    className="w-5 mr-1"
-                    src={require("assets/img/github.svg").default}
-                  />
-                  Github
-                </button>
-                <button className="bg-white text-blueGray-700 font-bold px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center text-xs">
-                  <img
-                    alt="..."
-                    className="w-5 mr-1"
-                    src={require("assets/img/google.svg").default}
-                  />
-                  Google
-                </button>
-              </div>
               <hr className="mt-6 border-b-1 border-blueGray-300" />
             </div>
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
               <div className="text-blueGray-400 text-center mb-3 font-bold">
                 <small>Or sign in with credentials</small>
               </div>
-              <form onSubmit={handleSubmit}>
+              {errorMessage && (
+                <div className="text-red-500 text-center mb-4">
+                  {errorMessage} {/* Display the error message here */}
+                </div>
+              )}
+              {loading && (
+                <div className="text-blueGray-500 text-center mb-4">
+                  Loading... {/* Display loading message or spinner */}
+                </div>
+              )}
+              <form onSubmit={handleLogin}>
                 <div className="relative w-full mb-3">
                   <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
                     Email
@@ -83,7 +64,6 @@ export default function Login() {
                     required
                   />
                 </div>
-
                 <div className="relative w-full mb-3">
                   <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
                     Password
@@ -97,20 +77,15 @@ export default function Login() {
                     required
                   />
                 </div>
-
                 <div className="text-center mt-6">
                   <button
                     className="bg-blueGray-800 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full"
                     type="submit"
-                    disabled={loading} // Disable button while loading
+                    disabled={loading} // Disable button when loading
                   >
-                    {loading ? "Signing In..." : "Sign In"}
+                    Sign In
                   </button>
                 </div>
-
-                {error && (
-                  <p className="text-red-500 text-xs italic mt-2">{error}</p>
-                )}
               </form>
               <div className="flex flex-wrap mt-6">
                 <div className="w-1/2">

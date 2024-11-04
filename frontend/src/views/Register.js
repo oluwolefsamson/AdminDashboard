@@ -1,38 +1,31 @@
 // src/components/Register.js
 
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { registerRequest } from "../redux/auth/authSlice"; // Adjust the path if necessary
+import { useDispatch, useSelector } from "react-redux";
+import { registerRequest } from "../redux/slices/authSlice";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.auth); // Access loading and error state from Redux
 
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    agree: false,
   });
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { agree, ...dataToSubmit } = formData;
-
-    dispatch(registerRequest(dataToSubmit)); // Dispatch the registration request
-    alert("User Created Sucessfully");
-    // Navigate to the login page based on your application's logic or after successful registration
-    navigate("/login"); // Adjust this based on your flow, possibly after a successful registration
+    dispatch(registerRequest(formData)); // Dispatch registerRequest action with form data
   };
 
   return (
@@ -46,30 +39,8 @@ export default function Register() {
                   Sign up with
                 </h6>
               </div>
-              <div className="btn-wrapper text-center">
-                <button
-                  className="bg-white active:bg-blueGray-50 text-blueGray-700  px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                  type="button"
-                >
-                  <img
-                    alt="Github"
-                    className="w-5 mr-1"
-                    src={require("assets/img/github.svg").default}
-                  />
-                  Github
-                </button>
-                <button
-                  className="bg-white active:bg-blueGray-50 text-blueGray-700  px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                  type="button"
-                >
-                  <img
-                    alt="Google"
-                    className="w-5 mr-1"
-                    src={require("assets/img/google.svg").default}
-                  />
-                  Google
-                </button>
-              </div>
+              {/* Social Sign-Up Buttons */}
+              {/* ... */}
               <hr className="mt-6 border-b-1 border-blueGray-300" />
             </div>
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
@@ -77,16 +48,17 @@ export default function Register() {
                 <small>Or sign up with credentials</small>
               </div>
               <form onSubmit={handleSubmit}>
+                {/* Username Field */}
                 <div className="relative w-full mb-3">
                   <label
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                    htmlFor="username" // Update htmlFor to username
+                    htmlFor="username"
                   >
                     Username
                   </label>
                   <input
                     type="text"
-                    name="username" // Update name to username
+                    name="username"
                     value={formData.username}
                     onChange={handleChange}
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -94,7 +66,7 @@ export default function Register() {
                     required
                   />
                 </div>
-
+                {/* Email Field */}
                 <div className="relative w-full mb-3">
                   <label
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -112,7 +84,7 @@ export default function Register() {
                     required
                   />
                 </div>
-
+                {/* Password Field */}
                 <div className="relative w-full mb-3">
                   <label
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -130,49 +102,23 @@ export default function Register() {
                     required
                   />
                 </div>
-
-                <div>
-                  <label className="inline-flex items-center cursor-pointer">
-                    <input
-                      id="customCheckLogin"
-                      type="checkbox"
-                      name="agree"
-                      checked={formData.agree}
-                      onChange={handleChange}
-                      className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                    />
-                    <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                      I agree with the{" "}
-                      <a
-                        href="#pablo"
-                        className="text-lightBlue-500"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        Privacy Policy
-                      </a>
-                    </span>
-                  </label>
-                </div>
-
+                {/* Submit Button */}
                 <div className="text-center mt-6">
                   <button
                     className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                     type="submit"
+                    disabled={loading} // Disable button if loading
                   >
-                    Create Account
+                    {loading ? "Creating Account..." : "Create Account"}
                   </button>
                 </div>
+                {/* Display Error Message */}
+                {error && (
+                  <p className="text-red-500 text-center mt-2">{error}</p>
+                )}
               </form>
+              {/* Login Link */}
               <div className="flex flex-wrap mt-6 relative">
-                <div className="w-1/2">
-                  <a
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                    className="text-blue-900"
-                  >
-                    <small></small>
-                  </a>
-                </div>
                 <div className="w-1/2 text-right">
                   Already have an account?{" "}
                   <Link to="/login" className="text-blue-900">

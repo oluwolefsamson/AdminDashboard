@@ -4,16 +4,7 @@ const colors = require("tailwindcss/colors");
 module.exports = {
   purge: {
     enabled: true,
-    content: [
-      "./public/**/*.html",
-      "./public/*.html",
-      "./src/**/*.js",
-      "./src/*.js",
-      "./src/**/*.html",
-      "./src/*.html",
-      "./public/**/*.js",
-      "./public/*.js",
-    ],
+    content: ["./public/**/*.{html,js}", "./src/**/*.{html,js}"],
     options: {
       safelist: [],
     },
@@ -78,6 +69,9 @@ module.exports = {
       },
       backgroundSize: {
         full: "100%",
+      },
+      spacing: {
+        75: "75px", // Add this line to allow `py-[75px]` usage
       },
     },
   },
